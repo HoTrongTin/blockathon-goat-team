@@ -10,7 +10,6 @@ const useTokenContract = (method: string = 'balanceOf') => {
     address: '0xA2b34213723B019Aec1695A7c2a21539AAeABA54'
   })
 
-  console.log('🚀 ~ useTokenContract ~ balance:', tokenContract, tokenContract.data as string)
 
   return tokenContract
 }

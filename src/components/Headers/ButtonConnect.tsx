@@ -7,10 +7,21 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { useSignConnect } from '~/hooks/useSignConnect'
 import useTokenContract from '~/hooks/useTokenContract'
 import truncateEthAddress from '~/utils/truncateAddress'
+import numeral from 'numeral'
+import { Typography } from 'antd'
+
+const { Text } = Typography
 
 function Balance() {
   const { data: balance } = useTokenContract()
-  return <Box style={textWhiteStyled}> Balance: {formatEther(balance)}</Box>
+  return (
+    <Box style={{ ...textWhiteStyled }}>
+      Balance:{' '}
+      <Text style={{ ...textWhiteStyled, textTransform: 'uppercase' }}>
+        {numeral(+formatEther((balance ?? 0) as bigint)).format('0.0a')}
+      </Text>
+    </Box>
+  )
 }
 
 const allCenterStyled: React.CSSProperties = {
