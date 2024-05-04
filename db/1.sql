@@ -47,3 +47,13 @@ create table post_interaction (
   index (interactionType),
   index (createdAt)
 );
+
+create table reward (
+  id int auto_increment primary key,
+  ownerAddress varchar(42) not null,
+  interactionCount int not null,
+  rewardAmount int not null,
+  rewardType enum('view', 'like', 'comment') not null,
+  createdAt timestamp not null default current_timestamp,
+  updatedAt timestamp not null default current_timestamp on update current_timestamp
+);

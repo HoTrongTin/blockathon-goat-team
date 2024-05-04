@@ -6,6 +6,7 @@ import { AppService } from './app.service'
 import { AuthModule } from './components/auth/auth.module'
 import { UserModule } from './components/user/user.module'
 import { PostModule } from './components/post/post.module'
+import { RewardModule } from './components/reward/reward.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,7 +16,8 @@ import { PostModule } from './components/post/post.module'
     //added to the imports array
     AuthModule,
     UserModule,
-    PostModule
+    PostModule,
+    RewardModule
   ],
   controllers: [AppController],
   providers: [
