@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy } from 'passport-custom'
 import { AuthService } from '../auth.service'
@@ -16,6 +16,9 @@ export class CustomStrategy extends PassportStrategy(Strategy, 'custom') {
     console.log('Validating request...')
     const signature = req.headers['onchainsignature'] as string
     console.log('signature: ', signature)
+    if (!signature) {
+      throw new UnauthorizedException('Signature is required')
+    }
     const walletAddress = this.authService.getAddressFromPersonalSignature(signature)
     console.log('walletAddress: ', walletAddress)
     this.userService.upsertUser(walletAddress)

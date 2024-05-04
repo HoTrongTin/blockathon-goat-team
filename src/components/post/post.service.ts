@@ -148,6 +148,11 @@ export class PostService {
     if (!post) {
       throw new Error('Post not found')
     }
+    const postView = await this.postInteractionRepository.findOne({ postId: id, ownerAddress: walletAddress, interactionType: InteractionType.view })
+    if (postView) {
+      // DO NOTHING
+      return
+    }
 
     const postInteraction = new PostInteractionEntity()
     postInteraction.postId = id

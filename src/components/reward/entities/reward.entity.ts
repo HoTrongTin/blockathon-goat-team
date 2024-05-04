@@ -18,6 +18,9 @@ export class RewardEntity {
   @Column({ nullable: false })
   rewardType: InteractionType
 
+  @Column({ nullable: false })
+  transactionHash: string
+
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt?: Date
 

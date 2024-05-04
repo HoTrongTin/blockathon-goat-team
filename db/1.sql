@@ -54,6 +54,7 @@ create table reward (
   interactionCount int not null,
   rewardAmount int not null,
   rewardType enum('view', 'like', 'comment') not null,
+  transactionHash varchar(66) not null,
   createdAt timestamp not null default current_timestamp,
   updatedAt timestamp not null default current_timestamp on update current_timestamp
 );

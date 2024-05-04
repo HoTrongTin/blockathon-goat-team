@@ -2,5 +2,6 @@
   "cSpell.words": [
     "IBMEX",
     "typeorm"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
