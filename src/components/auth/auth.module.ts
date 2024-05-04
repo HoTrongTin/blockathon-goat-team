@@ -1,3 +1,4 @@
+import { ReferralEntity } from '../user/entities/referral.entity'
 import { Module } from '@nestjs/common'
 import { PassportModule } from '@nestjs/passport'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -8,7 +9,7 @@ import { UserService } from '../user/user.service'
 import { UserEntity } from '../user/entities/user.entity'
 
 @Module({
-  imports: [PassportModule, TypeOrmModule.forFeature([UserEntity])],
+  imports: [PassportModule, TypeOrmModule.forFeature([UserEntity, ReferralEntity])],
   providers: [AuthService, UserService, CustomStrategy],
   controllers: [AuthController],
   exports: [TypeOrmModule, AuthService, UserService]

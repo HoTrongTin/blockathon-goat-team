@@ -1,3 +1,4 @@
+import { InteractionType } from './../../constants/index'
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common'
 import { AuthService } from '../auth/auth.service'
 import { CustomAuthGuard } from '../auth/guard/custom-auth.guard'
@@ -44,9 +45,16 @@ export class PostController {
   }
 
   @UseGuards(CustomAuthGuard)
-  @Post('/:id/view')
-  async viewPost(@Request() req: Request, @Param('id') id: number) {
+  @Post('/:id/:type')
+  async interactPost(@Request() req: Request, @Param('id') id: number, @Param('type') type: InteractionType) {
     const walletAddress = req['user'].walletAddress
-    return this.postService.viewPost(walletAddress, id)
+    return this.postService.viewPost(walletAddress, id, type)
+  }
+
+  @UseGuards(CustomAuthGuard)
+  @Get('/:id/:type')
+  async getInteractionsByPostId(@Request() req: Request, @Param('id') id: number, @Param('type') type: InteractionType) {
+    const walletAddress = req['user'].walletAddress
+    return this.postService.getInteractionsByPostId(walletAddress, id, type)
   }
 }

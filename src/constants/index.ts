@@ -15,5 +15,7 @@ export enum AssetType {
 export enum InteractionType {
   view = 'view',
   like = 'like',
-  comment = 'comment'
+  comment = 'comment',
+
+  referral = 'referral'
 }

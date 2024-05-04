@@ -53,8 +53,18 @@ create table reward (
   ownerAddress varchar(42) not null,
   interactionCount int not null,
   rewardAmount int not null,
-  rewardType enum('view', 'like', 'comment') not null,
+  rewardType enum('view', 'like', 'comment', 'referral') not null,
   transactionHash varchar(66) not null,
   createdAt timestamp not null default current_timestamp,
   updatedAt timestamp not null default current_timestamp on update current_timestamp
+);
+
+create table referral (
+  id int auto_increment primary key,
+  referrerAddress varchar(42) not null,
+  refereeAddress varchar(42) not null,
+  claimed boolean not null default false,
+  createdAt timestamp not null default current_timestamp,
+
+  index (referrerAddress, refereeAddress) unique
 );

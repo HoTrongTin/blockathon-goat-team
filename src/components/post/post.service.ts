@@ -148,12 +148,12 @@ export class PostService {
     return { post, images, videos, whitelistAddresses }
   }
 
-  async viewPost(walletAddress: any, id: number) {
+  async viewPost(walletAddress: any, id: number, type: InteractionType) {
     const post = await this.postRepository.findOne({ id })
     if (!post) {
       throw new Error('Post not found')
     }
-    const postView = await this.postInteractionRepository.findOne({ postId: id, ownerAddress: walletAddress, interactionType: InteractionType.view })
+    const postView = await this.postInteractionRepository.findOne({ postId: id, ownerAddress: walletAddress, interactionType: type })
     if (postView) {
       // DO NOTHING
       return
@@ -162,8 +162,18 @@ export class PostService {
     const postInteraction = new PostInteractionEntity()
     postInteraction.postId = id
     postInteraction.ownerAddress = walletAddress
-    postInteraction.interactionType = InteractionType.view
+    postInteraction.interactionType = type
 
     await this.postInteractionRepository.save(postInteraction)
+  }
+
+  async getInteractionsByPostId(walletAddress: any, id: number, type: InteractionType) {
+    const post = await this.postRepository.findOne({ id })
+    if (!post) {
+      throw new Error('Post not found')
+    }
+    const interactions = await this.postInteractionRepository.find({ postId: id, interactionType: type, ownerAddress: walletAddress })
+
+    return interactions
   }
 }

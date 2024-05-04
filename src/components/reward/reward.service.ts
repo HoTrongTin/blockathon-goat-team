@@ -7,6 +7,7 @@ import { InteractionType } from 'src/constants'
 import { PostEntity } from '../post/entities/post.entity'
 import goatABI from 'src/abi/goat.abi'
 import Web3 from 'web3'
+import { ReferralEntity } from '../user/entities/referral.entity'
 
 @Injectable()
 export class RewardService {
@@ -19,7 +20,9 @@ export class RewardService {
     @InjectRepository(PostEntity)
     private postRepository: Repository<PostEntity>,
     @InjectRepository(PostInteractionEntity)
-    private postInteractionRepository: Repository<PostInteractionEntity>
+    private postInteractionRepository: Repository<PostInteractionEntity>,
+    @InjectRepository(ReferralEntity)
+    private referralRepository: Repository<ReferralEntity>
   ) {}
 
   // async claimReward(ownerAddress: string, type: InteractionType): Promise<void> {
@@ -40,7 +43,7 @@ export class RewardService {
   //   }
   // }
 
-  async sendReward(ownerAddress: string, postId: number, type: InteractionType): Promise<void> {
+  async sendReward(ownerAddress: string, type: InteractionType, postId?: number): Promise<void> {
     console.log('postId: ', postId)
     const contractAddress = '0xA2b34213723B019Aec1695A7c2a21539AAeABA54'
     const privateKey = '0x1c68e3ec2ac9a83afb584b6de504aee5990b5ac90f1f9cf0aa1a78e521c3a5c7'
@@ -48,7 +51,7 @@ export class RewardService {
     const fromAccount = this.web3.eth.accounts.wallet[0].address
     const contract = new this.web3.eth.Contract(goatABI, contractAddress)
 
-    if (type === InteractionType.view) {
+    if (type == InteractionType.view) {
       // Get total viewed interaction of post of this ownerAddress
       const query = await this.postInteractionRepository.query(
         `
@@ -65,7 +68,7 @@ export class RewardService {
 
       const totalViewed = query[0].totalViewed
       console.log('totalViewed: ', totalViewed)
-      if (totalViewed === 0) {
+      if (totalViewed == 0) {
         return
       }
 
@@ -87,6 +90,9 @@ export class RewardService {
 
       // Send reward to ownerAddress
       console.log('amount: ', amount)
+      if (amount == 0) {
+        return
+      }
       const wei = this.web3.utils.toWei(amount, 'ether')
       const response = await contract.methods.transfer(ownerAddress, wei).send({ from: fromAccount })
       console.log('response: ', response)
@@ -103,6 +109,47 @@ export class RewardService {
 
       // Update post_interaction
       await this.postInteractionRepository.update({ postId, ownerAddress, interactionType: type }, { claimed: true })
+    } else if (type == InteractionType.referral) {
+      // Get total unclaimed referral of user
+      const query = await this.postInteractionRepository.query(
+        `
+        SELECT COUNT(*) as totalReferral
+        FROM
+          referral
+        WHERE
+          referrerAddress = '${ownerAddress}'
+          AND claimed = 0`
+      )
+
+      const totalReferral = query[0].totalReferral
+      console.log('totalReferral: ', totalReferral)
+      if (totalReferral === 0) {
+        return
+      }
+
+      const amount = totalReferral * 5
+
+      // Send reward to ownerAddress
+      console.log('amount: ', amount)
+      if (amount == 0) {
+        return
+      }
+      const wei = this.web3.utils.toWei(amount, 'ether')
+      const response = await contract.methods.transfer(ownerAddress, wei).send({ from: fromAccount })
+      console.log('response: ', response)
+
+      // Save reward to database
+      const reward = new RewardEntity()
+      reward.ownerAddress = ownerAddress
+      reward.interactionCount = totalReferral
+      reward.rewardAmount = amount
+      reward.rewardType = type
+      reward.transactionHash = response.transactionHash
+      const savedReward = await this.rewardsRepository.save(reward)
+      console.log('savedReward: ', savedReward)
+
+      // Update post_interaction
+      await this.referralRepository.update({ referrerAddress: ownerAddress }, { claimed: true })
     }
   }
 }

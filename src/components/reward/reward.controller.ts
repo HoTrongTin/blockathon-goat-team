@@ -9,8 +9,8 @@ export class RewardController {
 
   @UseGuards(CustomAuthGuard)
   @Post('/claim')
-  async claimReward(@Request() req: Request, @Query('type') type: InteractionType, @Query('postId') postId: number) {
+  async claimReward(@Request() req: Request, @Query('type') type: InteractionType, @Query('postId') postId?: number) {
     const walletAddress = req['user'].walletAddress
-    return this.rewardService.sendReward(walletAddress, postId, type)
+    return this.rewardService.sendReward(walletAddress, type, postId)
   }
 }
