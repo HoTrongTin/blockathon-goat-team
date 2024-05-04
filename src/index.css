@@ -1,9 +1,9 @@
-*,
+e*,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
 body {
-  background: var(--seq-colors-background-primary);
+  background: #fff;
 }

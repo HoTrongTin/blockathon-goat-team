@@ -1,90 +1,32 @@
+import { sequence } from '0xsequence'
 import { ThemeProvider } from '@0xsequence/design-system'
-
-import { sequenceWallet } from '@0xsequence/wagmi-connector'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Chain, sepolia } from 'viem/chains'
+import { createConfig, http, WagmiProvider } from 'wagmi'
 import { walletConnect } from 'wagmi/connectors'
 
-import { createConfig, WagmiProvider, http } from 'wagmi'
-import { mainnet, polygon, optimism, arbitrum, sepolia, Chain } from 'viem/chains'
-import { sequence } from '0xsequence'
-import Demo from './Demo'
+import Demo from '~/pages/Demo'
 
-import './index.css'
 import '@0xsequence/design-system/styles.css'
+import './index.css'
+import HomePage from './pages/Home'
+import { ConfigProvider } from 'antd'
 
 const queryClient = new QueryClient()
 
-const arbitrumSepolia: Chain = {
-  id: 421614,
-  name: 'Arbitrum Sepolia',
-  testnet: true,
-  nativeCurrency: {
-    name: 'Arbitrum Sepolia Ether',
-    symbol: 'ASETH',
-    decimals: 18
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />
   },
-  rpcUrls: {
-    default: {
-      http: ['https://nodes.sequence.app/arbitrum-sepolia']
-    },
-    public: {
-      http: ['https://nodes.sequence.app/arbitrum-sepolia']
-    }
+  {
+    path: '/demo',
+    element: <Demo />
   }
-}
-
-const polygonAmoy: Chain = {
-  id: 80002,
-  name: 'Polygon Amoy',
-  testnet: true,
-  nativeCurrency: {
-    name: 'Matic Amoy',
-    symbol: 'MATIC',
-    decimals: 18
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://nodes.sequence.app/amoy']
-    },
-    public: {
-      http: ['https://nodes.sequence.app/amoy']
-    }
-  }
-}
-const victionTestnet: Chain = {
-  id: 89,
-  name: 'Viction Testnet',
-  testnet: true,
-  nativeCurrency: {
-    name: 'Viction Testnet',
-    symbol: 'VIC',
-    decimals: 18
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://rpc-testnet.viction.xyz']
-    },
-    public: {
-      http: ['https://rpc-testnet.viction.xyz']
-    }
-  },
-  blockExplorers: {
-    default: {
-      name: 'Viction Test',
-      url: 'https://testnet.vicscan.xyz'
-    },
-  }
-}
+])
 
 const App = () => {
-  const urlParams = new URLSearchParams(window.location.search)
-  let walletAppURL = 'https://sequence.app'
-
-  if (urlParams.get('walletAppURL') && urlParams.get('walletAppURL').length > 0) {
-    walletAppURL = urlParams.get('walletAppURL')
-  }
-
   const chains = [sepolia] as [Chain, ...Chain[]]
 
   const connectors = [
@@ -109,13 +51,24 @@ const App = () => {
   })
 
   return (
-    <ThemeProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          // Seed Token
+          colorPrimary: '#00b96b',
+          borderRadius: 2,
+
+          // Alias Token
+          colorBgContainer: '#f6ffed'
+        }
+      }}
+    >
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-          <Demo />
+          <RouterProvider router={router} />
         </QueryClientProvider>
       </WagmiProvider>
-    </ThemeProvider>
+    </ConfigProvider>
   )
 }
 

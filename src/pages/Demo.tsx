@@ -1,20 +1,20 @@
 import { Box, Image, Text } from '@0xsequence/design-system'
 import React, { useState, useEffect } from 'react'
 
-import logoUrl from './images/logo.png'
+import logoUrl from '~/images/logo.png'
 
 import { ethers } from 'ethers'
 import { useWalletClient, usePublicClient, useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi'
 
 import { Address, formatEther, parseEther } from 'viem'
 
-import { ERC_20_ABI } from './constants/abi'
+import { ERC_20_ABI } from '../constants/abi'
 
 import { configureLogger } from '@0xsequence/utils'
-import { Group } from './components/Group'
+import { Group } from '../components/Group'
 // import { Button } fropnpmm './components/Button'
-import { Console } from './components/Console'
-import { Button } from 'antd'
+import { Console } from '../components/Console'
+import { Button, Flex } from 'antd'
 
 configureLogger({ logLevel: 'DEBUG' })
 
@@ -293,7 +293,7 @@ const App = () => {
         <Box marginBottom="4">
           <Text>Please open your browser dev inspector to view output of functions below</Text>
         </Box>
-        <Group label="State">
+        <Flex>
           <Button disabled={disableActions} onClick={() => getAddress()}>
             Address
           </Button>
@@ -306,7 +306,7 @@ const App = () => {
           <Button disabled={disableActions} onClick={() => getBalance()}>
             Get Balance
           </Button>
-        </Group>
+        </Flex>
 
         <Group label="Network switching">
           {chains.map(chain => {
@@ -378,7 +378,7 @@ const App = () => {
   }
 
   return (
-    <Box marginY="0" marginX="auto" paddingX="6" style={{ maxWidth: '720px', marginTop: '80px', marginBottom: '80px' }}>
+    <Box marginY="0" marginX="auto" paddingX="6" style={{ maxWidth: '860px', marginTop: '80px', marginBottom: '80px' }}>
       <Box marginBottom="4">
         <Image height="10" alt="logo" src={logoUrl} />
       </Box>
