@@ -6,7 +6,7 @@ import { AuthService } from './auth.service'
 import { CustomStrategy } from './strategy/custom.strategy'
 
 @Module({
-  imports: [PassportModule],
+  imports: [PassportModule, TypeOrmModule.forFeature([])],
   providers: [AuthService, CustomStrategy],
   controllers: [AuthController],
   exports: [TypeOrmModule, AuthService]
