@@ -1,9 +1,8 @@
-e*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body {
   background: #fff;
+  margin: 0;
+}
+
+:where(.css-dev-only-do-not-override-lhpers).ant-layout-header {
+  line-height: 180%;
 }

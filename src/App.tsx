@@ -10,7 +10,7 @@ import Demo from '~/pages/Demo'
 
 import '@0xsequence/design-system/styles.css'
 import './index.css'
-import HomePage from './pages/Home'
+import HomePage from './pages/Home/HomeContent'
 import { ConfigProvider } from 'antd'
 
 const queryClient = new QueryClient()
@@ -30,10 +30,10 @@ const App = () => {
   const chains = [sepolia] as [Chain, ...Chain[]]
 
   const connectors = [
-    walletConnect({
-      projectId: 'b87cf8b78e1c5a9881adabe5765d2461',
-      showQrModal: true
-    })
+    // walletConnect({
+    //   projectId: 'b87cf8b78e1c5a9881adabe5765d2461',
+    //   showQrModal: true
+    // })
   ]
 
   const transports = {}
@@ -54,11 +54,7 @@ const App = () => {
     <ConfigProvider
       theme={{
         token: {
-          // Seed Token
-          colorPrimary: '#00b96b',
           borderRadius: 2,
-
-          // Alias Token
           colorBgContainer: '#f6ffed'
         }
       }}

@@ -20,6 +20,9 @@ dependencies:
   '@0xsequence/wagmi-connector':
     specifier: ^3.1.1
     version: 3.1.1(0xsequence@1.9.19)(ethers@5.7.2)(viem@2.9.20)(wagmi@2.5.20)
+  '@ant-design/icons':
+    specifier: ^5.3.6
+    version: 5.3.6(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^5.29.2
     version: 5.29.2(react@18.2.0)
