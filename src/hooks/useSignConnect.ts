@@ -4,7 +4,7 @@ import { debounce } from 'lodash'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export const useSignConnect = () => {
-  const { data: walletClient, refetch } = useWalletClient({})
+  const { refetch } = useWalletClient({})
   const qClient = useQueryClient()
   const _signMessage = async (address: string) => {
     const client = await refetch()
@@ -16,9 +16,11 @@ export const useSignConnect = () => {
       message,
       account: address as Address
     })
+    console.log('🚀 ~ const_signMessage= ~  sig:', sig)
     const qKey = ['address-signature:', address]
     qClient.setQueryData(qKey, sig)
     localStorage.setItem(qKey.join(''), sig)
+    return sig
   }
 
   return {

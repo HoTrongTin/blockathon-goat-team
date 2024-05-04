@@ -19,7 +19,7 @@ function Balance() {
     <Box style={{ ...textWhiteStyled }}>
       Balance:{' '}
       <Text style={{ ...textWhiteStyled, textTransform: 'uppercase' }}>
-        {numeral(+formatEther((balance ?? 0) as bigint)).format('0,000')}
+        {numeral(+formatEther((balance ?? 0) as bigint)).format('0,000')} $GOAT
       </Text>
     </Box>
   )
@@ -40,9 +40,9 @@ const ButtonConnect: React.ElementType = ({ style }) => {
   const { disconnectAsync: disconnect } = useDisconnect()
   const { signMessage } = useSignConnect()
 
-  const handleConnect = React.useCallback(() => {
+  const handleConnect = React.useCallback(async () => {
     try {
-      connect({ connector: connectors[0] }).then(async data => {
+      await connect({ connector: connectors[0] }).then(async data => {
         const address: string = data.accounts[0]
         await signMessage(address)
       })

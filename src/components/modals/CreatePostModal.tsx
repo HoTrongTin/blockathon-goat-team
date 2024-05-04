@@ -9,6 +9,7 @@ import { formatEther } from 'viem'
 import { Box } from '@0xsequence/design-system'
 import { useGetSetState, useUpdateEffect } from 'react-use'
 import useUploadFiles from '~/hooks/useUploadFiles'
+import ButtonConnect from '../Headers/ButtonConnect'
 
 const { Paragraph } = Typography
 const { TextArea } = Input
@@ -21,27 +22,14 @@ const CreatePostModal: React.FC = () => {
   const { mintNFT, isNeedApproveMore, isFreeMint, approveForNftContract } = useCreatePost()
   const { uploadFiles } = useUploadFiles()
 
-  const { address } = useAccount()
+  const { isConnected } = useAccount()
 
   const { data: _mintFee } = useReadNFTContract('_mintFee', [])
   const { data: symbol } = useReadTokenContract('symbol', [])
   const { data: signature } = useAddressSignature()
 
-  // useUpdateEffect(() => {
-  //   if (uploadFiles.status === 'success') {
-  //     setPostData({ images: uploadFiles.data })
-  //   }
-  // }, [uploadFiles.status])
-
   const handleCreatePostMutate = async () => {
     const create: INewPost = getPost()
-    //  {
-    //   name: 'Beautiful Day',
-    //   description:
-    //     'We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be merged in the ledger of our open collective by the core contributors and the person who filed the expense will be reimbursed.',
-    //   isPublic: true,
-    //   images: uploadFiles.data ? uploadFiles.data : []
-    // }
 
     await mintNFT.mutateAsync({ newTodo: create, signature })
   }
@@ -51,9 +39,14 @@ const CreatePostModal: React.FC = () => {
 
   return (
     <>
-      <Button type="primary" onClick={() => setOpen(true)}>
-        Create Your Post
-      </Button>
+      {isConnected ? (
+        <Button type="primary" onClick={() => setOpen(true)}>
+          {!isConnected ? 'Connect Wallet' : 'Create Your Post'}
+        </Button>
+      ) : (
+        <ButtonConnect />
+      )}
+
       <Modal
         title="Create Post"
         centered

@@ -4,24 +4,26 @@ import { Posts } from './content/Posts'
 import CreatePostModal from '~/components/modals/CreatePostModal'
 import { useReadNFTContract } from '~/hooks/useReadContract'
 import React from 'react'
+import { useAccount, useConnect } from 'wagmi'
 
 const { Content } = Layout
 
 export const HomeContent = () => {
+  const {isConnected} = useAccount()
   const {
     token: { colorBgContainer, borderRadiusLG }
   } = theme.useToken()
   const { data: _totalSupply } = useReadNFTContract('_totalSupply', [])
-  console.log('🚀 ~ HomeContent ~ _totalSupply:', Number(_totalSupply))
 
   const allPosts = React.useMemo(() => {
     const elements = []
+    if (!isConnected) return []
     const num = Number(_totalSupply ?? 0)
     for (let idx = num; idx > 0; idx--) {
       elements.push(<Posts key={'post' + idx} tokenId={idx} />)
     }
     return elements
-  }, [_totalSupply])
+  }, [_totalSupply, isConnected])
 
   return (
     <Content style={contentStyle}>
