@@ -7,6 +7,7 @@ import { AuthModule } from './components/auth/auth.module'
 import { UserModule } from './components/user/user.module'
 import { PostModule } from './components/post/post.module'
 import { RewardModule } from './components/reward/reward.module'
+import { FileModule } from './components/file/file.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,7 +18,8 @@ import { RewardModule } from './components/reward/reward.module'
     AuthModule,
     UserModule,
     PostModule,
-    RewardModule
+    RewardModule,
+    FileModule
   ],
   controllers: [AppController],
   providers: [

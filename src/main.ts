@@ -6,6 +6,7 @@ import { AuthModule } from './components/auth/auth.module'
 import { UserModule } from './components/user/user.module'
 import { PostModule } from './components/post/post.module'
 import { RewardModule } from './components/reward/reward.module'
+import { FileModule } from './components/file/file.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -31,7 +32,7 @@ async function bootstrap() {
     // .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'jwt' }, 'api-key')
     .build()
   const document = SwaggerModule.createDocument(app, swaggerConfig, {
-    include: [AuthModule, UserModule, PostModule, RewardModule]
+    include: [AuthModule, UserModule, PostModule, RewardModule, FileModule]
   })
   SwaggerModule.setup('swagger', app, document, {
     swaggerOptions: { defaultModelsExpandDepth: -1 }
