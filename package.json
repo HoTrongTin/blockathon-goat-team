@@ -43,6 +43,7 @@
     "wagmi": "^2.5.20"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/lodash": "^4.17.1",
     "@types/numeral": "^2.0.5",
     "@vanilla-extract/vite-plugin": "^4.0.7",

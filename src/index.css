@@ -6,3 +6,7 @@ body {
 :where(.css-dev-only-do-not-override-lhpers).ant-layout-header {
   line-height: 180%;
 }
+
+span.anticon.anticon-copy {
+  color: #fff;
+}

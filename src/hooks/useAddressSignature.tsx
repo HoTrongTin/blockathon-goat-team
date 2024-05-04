@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi'
 
 export function useAddressSignature() {
   const { address: account } = useAccount()
-  const { data } = useQuery({
+  const query = useQuery({
     queryKey: ['address-signature:', account],
     queryFn: ({ queryKey }) => {
       if (!account) return
@@ -12,5 +12,5 @@ export function useAddressSignature() {
     }
   })
 
-  return data
+  return query
 }

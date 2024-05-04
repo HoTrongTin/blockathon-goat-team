@@ -5,15 +5,16 @@ import React from 'react'
 import { Address, formatEther } from 'viem'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { useSignConnect } from '~/hooks/useSignConnect'
-import useTokenContract from '~/hooks/useTokenContract'
+import { useReadTokenContract } from '~/hooks/useReadContract'
 import truncateEthAddress from '~/utils/truncateAddress'
 import numeral from 'numeral'
 import { Typography } from 'antd'
 
-const { Text } = Typography
+const { Text, Paragraph } = Typography
 
 function Balance() {
-  const { data: balance } = useTokenContract()
+  const { address } = useAccount()
+  const { data: balance } = useReadTokenContract('balanceOf', [address])
   return (
     <Box style={{ ...textWhiteStyled }}>
       Balance:{' '}
@@ -53,7 +54,23 @@ const ButtonConnect: React.ElementType = ({ style }) => {
   return isConnected ? (
     <Flex style={{ ...allCenterStyled, ...style }}>
       <Box style={{ margin: 8 }}>
-        <Box style={textWhiteStyled}>{truncateEthAddress(address)}</Box>
+        <Box style={{ ...textWhiteStyled }}></Box>
+        <Paragraph
+          style={{
+            ...textWhiteStyled,
+            marginBottom: 0
+          }}
+          copyable={{
+            text: async () =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve(address)
+                }, 200)
+              })
+          }}
+        >
+          {truncateEthAddress(address)}
+        </Paragraph>
         <Balance />
       </Box>
 

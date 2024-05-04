@@ -16,7 +16,7 @@ export const Posts = () => {
           <Title style={{ textAlign: 'center' }}>h1. Ant Design</Title>
           <Flex>
             <Box style={{ flex: 1 }}>
-              <Paragraph>
+              <Paragraph editable >
                 Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design
                 language for background applications, is refined by Ant UED Team. Ant Design, a design language for background
                 applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by
