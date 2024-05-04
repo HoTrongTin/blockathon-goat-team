@@ -32,4 +32,11 @@ export class PostController {
   async getPostById(@Param('id') id: number) {
     return this.postService.getPostById(id)
   }
+
+  @UseGuards(CustomAuthGuard)
+  @Post('/:id/view')
+  async viewPost(@Request() req: Request, @Param('id') id: number) {
+    const walletAddress = req['user'].walletAddress
+    return this.postService.viewPost(walletAddress, id)
+  }
 }

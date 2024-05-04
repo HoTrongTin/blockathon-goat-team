@@ -16,5 +16,8 @@ export class PostInteractionEntity {
   interactionType: InteractionType
 
   @Column({ nullable: false })
+  claimed: boolean
+
+  @Column({ nullable: false })
   createdAt: Date
 }

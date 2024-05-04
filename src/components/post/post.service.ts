@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { PostEntity } from './entities/post.entity'
 import { PostInteractionEntity } from './entities/post_interaction.entity'
 import { PostAssetEntity } from './entities/post_asset.entity'
-import { AssetType } from 'src/constants'
+import { AssetType, InteractionType } from 'src/constants'
 import { CreatePostDto } from './dto/create-post.dto'
 
 @Injectable()
@@ -141,5 +141,19 @@ export class PostService {
     const whitelistAddresses = postAssets.filter(asset => asset.assetType === AssetType.whitelistAddress).map(asset => asset.assetValue)
 
     return { post, images, videos, whitelistAddresses }
+  }
+
+  async viewPost(walletAddress: any, id: number) {
+    const post = await this.postRepository.findOne({ id })
+    if (!post) {
+      throw new Error('Post not found')
+    }
+
+    const postInteraction = new PostInteractionEntity()
+    postInteraction.postId = id
+    postInteraction.ownerAddress = walletAddress
+    postInteraction.interactionType = InteractionType.view
+
+    await this.postInteractionRepository.save(postInteraction)
   }
 }

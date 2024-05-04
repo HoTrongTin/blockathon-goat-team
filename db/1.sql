@@ -39,6 +39,7 @@ create table post_interaction (
   postId int not null,
   ownerAddress varchar(42) not null,
   interactionType enum('view', 'like', 'comment') not null,
+  claimed boolean not null default false,
   createdAt timestamp not null default current_timestamp,
 
   index (postId),
