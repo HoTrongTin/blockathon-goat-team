@@ -5,3 +5,15 @@ export enum Gender {
   female = 'female',
   other = 'other'
 }
+
+export enum AssetType {
+  image = 'image',
+  video = 'video',
+  whitelistAddress = 'whitelistAddress'
+}
+
+export enum InteractionType {
+  view = 'view',
+  like = 'like',
+  comment = 'comment'
+}

@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './app.module'
 import { AuthModule } from './components/auth/auth.module'
 import { UserModule } from './components/user/user.module'
+import { PostModule } from './components/post/post.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -22,14 +23,14 @@ async function bootstrap() {
   )
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('IBMEX API')
+    .setTitle('GOAT API')
     .setDescription('API description')
     .setVersion('1.0')
-    .addTag('IBMEX')
+    .addTag('GOAT')
     // .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'jwt' }, 'api-key')
     .build()
   const document = SwaggerModule.createDocument(app, swaggerConfig, {
-    include: [AuthModule, UserModule]
+    include: [AuthModule, UserModule, PostModule]
   })
   SwaggerModule.setup('swagger', app, document, {
     swaggerOptions: { defaultModelsExpandDepth: -1 }

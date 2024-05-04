@@ -5,6 +5,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './components/auth/auth.module'
 import { UserModule } from './components/user/user.module'
+import { PostModule } from './components/post/post.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,7 +14,8 @@ import { UserModule } from './components/user/user.module'
     TypeOrmModule.forRoot(),
     //added to the imports array
     AuthModule,
-    UserModule
+    UserModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [
