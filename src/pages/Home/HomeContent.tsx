@@ -1,5 +1,7 @@
 import { Layout, theme } from 'antd'
 import { contentStyle } from '~/styled/layout'
+import { Posts } from './content/Posts'
+import CreatePostModal from '~/components/modals/CreatePostModal'
 
 const { Content } = Layout
 
@@ -14,11 +16,18 @@ export const HomeContent = () => {
         style={{
           padding: 24,
           minHeight: '100vh',
+          maxWidth: 846,
+          display: 'grid',
+          gap: 16,
           background: colorBgContainer,
-          borderRadius: borderRadiusLG
+          borderRadius: borderRadiusLG,
+          flex: 'auto'
         }}
       >
-        Content
+        <CreatePostModal/>
+        {[1, 2, 3, 4, 5, 6].map(post => (
+          <Posts key={'post' + post} />
+        ))}
       </div>
     </Content>
   )

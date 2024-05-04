@@ -3,6 +3,7 @@ import { Layout } from 'antd'
 import logoUrl from '~/images/logo.png'
 import { headerStyle } from '~/styled/layout'
 import ButtonConnect from './ButtonConnect'
+import { useAddressSignature } from '../../hooks/useAddressSignature'
 
 const { Header } = Layout
 
