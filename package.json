@@ -1,0 +1,55 @@
+{
+  "name": "demo-dapp-wagmi",
+  "description": "Ethereum Demo Dapp + Wagmi built on Sequence stack",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "demo-dapp-wagmi",
+  "scripts": {
+    "dev": "BROWSER=none pnpm start",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "link-sequence": "../sequence.js/scripts/pnpm-link.sh link",
+    "unlink-sequence": "../sequence.js/scripts/pnpm-link.sh unlink"
+  },
+  "dependencies": {
+    "0xsequence": "^1.9.19",
+    "@0xsequence/design-system": "^1.4.1",
+    "@0xsequence/ethauth": "0.8.1",
+    "@0xsequence/utils": "^1.9.19",
+    "@0xsequence/wagmi-connector": "^3.1.1",
+    "@tanstack/react-query": "^5.29.2",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "@vanilla-extract/css": "^1.14.2",
+    "antd": "^5.17.0",
+    "ethers": "^5.7.2",
+    "framer-motion": "^9.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.4.5",
+    "viem": "^2.9.20",
+    "wagmi": "^2.5.20"
+  },
+  "devDependencies": {
+    "@vanilla-extract/vite-plugin": "^4.0.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.9",
+    "vite-plugin-svgr": "^4.2.0",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
