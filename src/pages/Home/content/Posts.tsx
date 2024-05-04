@@ -8,14 +8,15 @@ import { INewPost } from '~/hooks/useCreatePost'
 import { useReadNFTContract } from '~/hooks/useReadContract'
 
 import logoUrl from '~/images/logo.png'
-import { LikeFilled, UserOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined, LikeFilled, UserOutlined } from '@ant-design/icons'
 import { DonateButton } from './DonateButton'
 import truncateEthAddress from '~/utils/truncateAddress'
 
 const { Title, Paragraph } = Typography
 
-const PublicPostData = ({ tokenId }) => {
-  const { data: tokenURI } = useReadNFTContract('tokenURI', [tokenId])
+const PublicPostData = ({ tokenId, tokenURI }) => {
+  console.log("🚀 ~ PublicPostData ~ tokenURI:", tokenURI)
+  // const { data: tokenURI } = useReadNFTContract('tokenURI', [tokenId])
   const { data: _ownerOf } = useReadNFTContract('ownerOf', [tokenId])
 
   const { data: signature } = useAddressSignature()
@@ -78,8 +79,8 @@ const PublicPostData = ({ tokenId }) => {
               </Box>
             </Flex>
             <Flex style={{ marginTop: 'auto', justifyContent: 'space-between' }}>
-              <Button icon={<LikeFilled />}> Like </Button>
-              <Button icon={<LikeFilled />}> Like </Button>
+              <Button icon={<InfoCircleOutlined />}> Details </Button>
+              {/* <Button icon={<LikeFilled />}> Like </Button> */}
               <DonateButton author={author} />
             </Flex>
           </Flex>
@@ -90,7 +91,8 @@ const PublicPostData = ({ tokenId }) => {
 }
 
 export const Posts = ({ tokenId }) => {
-  const { data: isPublicToken } = useReadNFTContract('isPublicToken', [tokenId])
+  const { data: _tokenMetadata } = useReadNFTContract('_tokenMetadata', [tokenId])
+  console.log('🚀 ~ Posts ~ isPublicToken:', _tokenMetadata?.[0],get(_tokenMetadata, '1'), tokenId)
 
-  return isPublicToken && <PublicPostData tokenId={tokenId} />
+  return get(_tokenMetadata, '1') && <PublicPostData tokenId={tokenId} tokenURI={get(_tokenMetadata, '0')} />
 }

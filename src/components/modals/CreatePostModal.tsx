@@ -19,7 +19,7 @@ const CreatePostModal: React.FC = () => {
   const [files, setFiles] = useState(null)
   const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: '' })
 
-  const { mintNFT, isNeedApproveMore, isFreeMint, approveForNftContract } = useCreatePost()
+  const { mintNFT, isNeedApproveMore, isFreeMint, approveForNftContract, recipient } = useCreatePost()
   const { uploadFiles } = useUploadFiles()
 
   const { isConnected } = useAccount()
@@ -36,6 +36,12 @@ const CreatePostModal: React.FC = () => {
 
   const handleCancel = () => setOpen(false)
   const handleOK = () => setOpen(false)
+
+  React.useEffect(() => {
+    if (recipient) {
+      handleCancel()
+    }
+  }, [recipient])
 
   return (
     <>

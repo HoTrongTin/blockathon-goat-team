@@ -31,7 +31,7 @@ export const HomeContent = () => {
         style={{
           padding: 24,
           minHeight: '100vh',
-          maxWidth: 846,
+          maxWidth: 1200,
           display: 'grid',
           gap: 16,
           background: colorBgContainer,

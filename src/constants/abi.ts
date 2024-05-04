@@ -361,6 +361,16 @@ export const ERC_721_ABI = [
     type: 'function'
   },
   {
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: '_tokenMetadata',
+    outputs: [
+      { internalType: 'string', name: 'tokenURI', type: 'string' },
+      { internalType: 'bool', name: 'isPublic', type: 'bool' }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [],
     name: '_totalSupply',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -404,13 +414,6 @@ export const ERC_721_ABI = [
       { internalType: 'address', name: 'operator', type: 'address' }
     ],
     name: 'isApprovedForAll',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
-    name: 'isPublicToken',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',
     type: 'function'
