@@ -4,9 +4,9 @@ import React from 'react'
 import { etherUnits, maxUint256 } from 'viem'
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi'
 import { ERC_20_ABI, ERC_721_ABI } from '~/constants/abi'
-import { useReadTokenContract, useReadNFTContract, GOAT_CONTRACT } from './useReadContract'
+import { useReadTokenContract, useReadNFTContract } from './useReadContract'
 import { ethers } from 'ethers'
-import { NFT_Contract, MeOnChainServiceInstance } from '../constants/instance'
+import {  GOAT_CONTRACT, MeOnChainServiceInstance, NFT_Contract } from '../constants/instance'
 
 export interface INewPost {
   name: string
@@ -82,6 +82,7 @@ export const useCreatePost = () => {
     approveForNftContract,
     mintNFT,
     isFreeMint,
-    isNeedApproveMore
+    isNeedApproveMore,
+    recipient
   }
 }

@@ -2,6 +2,8 @@ import { Layout, theme } from 'antd'
 import { contentStyle } from '~/styled/layout'
 import { Posts } from './content/Posts'
 import CreatePostModal from '~/components/modals/CreatePostModal'
+import { useReadNFTContract } from '~/hooks/useReadContract'
+import React from 'react'
 
 const { Content } = Layout
 
@@ -9,6 +11,17 @@ export const HomeContent = () => {
   const {
     token: { colorBgContainer, borderRadiusLG }
   } = theme.useToken()
+  const { data: _totalSupply } = useReadNFTContract('_totalSupply', [])
+  console.log('🚀 ~ HomeContent ~ _totalSupply:', Number(_totalSupply))
+
+  const allPosts = React.useMemo(() => {
+    const elements = []
+    const num = Number(_totalSupply ?? 0)
+    for (let idx = num; idx > 0; idx--) {
+      elements.push(<Posts key={'post' + idx} tokenId={idx} />)
+    }
+    return elements
+  }, [_totalSupply])
 
   return (
     <Content style={contentStyle}>
@@ -24,10 +37,8 @@ export const HomeContent = () => {
           flex: 'auto'
         }}
       >
-        <CreatePostModal/>
-        {[1, 2, 3, 4, 5, 6].map(post => (
-          <Posts key={'post' + post} />
-        ))}
+        <CreatePostModal />
+        {allPosts}
       </div>
     </Content>
   )

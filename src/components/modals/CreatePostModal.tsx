@@ -14,7 +14,7 @@ const { Paragraph } = Typography
 const { TextArea } = Input
 
 const CreatePostModal: React.FC = () => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [files, setFiles] = useState(null)
   const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: '' })
 
@@ -22,17 +22,16 @@ const CreatePostModal: React.FC = () => {
   const { uploadFiles } = useUploadFiles()
 
   const { address } = useAccount()
-  console.log('🚀 ~ file:', files, uploadFiles.data)
 
   const { data: _mintFee } = useReadNFTContract('_mintFee', [])
   const { data: symbol } = useReadTokenContract('symbol', [])
   const { data: signature } = useAddressSignature()
 
-  useUpdateEffect(() => {
-    if (uploadFiles.status === 'success') {
-      setPostData({ images: uploadFiles.data })
-    }
-  }, [uploadFiles.status])
+  // useUpdateEffect(() => {
+  //   if (uploadFiles.status === 'success') {
+  //     setPostData({ images: uploadFiles.data })
+  //   }
+  // }, [uploadFiles.status])
 
   const handleCreatePostMutate = async () => {
     const create: INewPost = getPost()
@@ -71,7 +70,10 @@ const CreatePostModal: React.FC = () => {
             disabled={mintNFT.isPending || uploadFiles.isPending}
             onClick={() => {
               uploadFiles.mutateAsync(files).then(async data => {
-                await handleCreatePostMutate()
+                setPostData({ images: data })
+                setTimeout(async () => {
+                  await handleCreatePostMutate()
+                }, 500)
               })
             }}
           >

@@ -6,7 +6,6 @@ const getUploadedFile = fName => `${import.meta.env.VITE_BE_LINK}/file/${fName}`
 
 const useUploadFiles = () => {
   const handleFile = async (file: File) => {
-    console.log('🚀 ~ handleFile ~ file:', file)
     const formData = new FormData()
     formData.append('file', file)
     const { data: resp } = await MeOnChainServiceInstance.post('/file', formData, {
