@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { PostEntity } from './entities/post.entity'
@@ -125,20 +125,25 @@ export class PostService {
     return { message: 'Post deleted successfully' }
   }
 
-  async getPostById(postId: number): Promise<{
+  async getPostById(
+    postId: number,
+    walletAddress?: string
+  ): Promise<{
     post: PostEntity
     images: string[]
     videos: string[]
     whitelistAddresses: string[]
   }> {
-    console.log('postId: ', postId)
     const post = await this.postRepository.findOne({ id: postId })
-    console.log('post: ', post)
 
     const postAssets = await this.postAssetRepository.find({ postId })
     const images = postAssets.filter(asset => asset.assetType === AssetType.image).map(asset => asset.assetValue)
     const videos = postAssets.filter(asset => asset.assetType === AssetType.video).map(asset => asset.assetValue)
     const whitelistAddresses = postAssets.filter(asset => asset.assetType === AssetType.whitelistAddress).map(asset => asset.assetValue)
+
+    if (!post.isPublic && walletAddress !== post.ownerAddress && !whitelistAddresses.includes(walletAddress)) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
+    }
 
     return { post, images, videos, whitelistAddresses }
   }

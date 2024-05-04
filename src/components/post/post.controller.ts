@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common'
+import { AuthService } from '../auth/auth.service'
 import { CustomAuthGuard } from '../auth/guard/custom-auth.guard'
 import { CreatePostDto } from './dto/create-post.dto'
 import { PostService } from './post.service'
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService, private readonly authService: AuthService) {}
 
   @UseGuards(CustomAuthGuard)
   @Post()
@@ -29,8 +30,17 @@ export class PostController {
   }
 
   @Get('/:id')
-  async getPostById(@Param('id') id: number) {
-    return this.postService.getPostById(id)
+  async getPostById(@Request() req: Request, @Param('id') id: number) {
+    try {
+      const signature = req.headers['onchainsignature'] as string
+      if (!signature) {
+        throw new UnauthorizedException('Signature is required')
+      }
+      const walletAddress = this.authService.getAddressFromPersonalSignature(signature)
+      return this.postService.getPostById(id, walletAddress)
+    } catch (error) {
+      return this.postService.getPostById(id)
+    }
   }
 
   @UseGuards(CustomAuthGuard)

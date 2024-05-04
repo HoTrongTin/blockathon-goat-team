@@ -13,9 +13,7 @@ export class CustomStrategy extends PassportStrategy(Strategy, 'custom') {
   }
 
   async validate(req: Request): Promise<any> {
-    console.log('Validating request...')
     const signature = req.headers['onchainsignature'] as string
-    console.log('signature: ', signature)
     if (!signature) {
       throw new UnauthorizedException('Signature is required')
     }
