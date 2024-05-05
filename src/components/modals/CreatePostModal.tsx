@@ -41,7 +41,7 @@ const CreatePostModal: React.FC = () => {
   React.useEffect(() => {
     if (recipient && open) {
       setTimeout(() => {
-        Modal.success({ title: 'Success', content: 'Claimed' })
+        Modal.success({ title: 'Success', content: 'Created!' })
       }, 500)
       handleCancel()
     }

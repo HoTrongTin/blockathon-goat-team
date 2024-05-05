@@ -12,7 +12,7 @@ const { Header } = Layout
 
 export function PageHeader() {
   const navigate = useNavigate()
-  const { address } = useAccount()
+  const { address, isConnected } = useAccount()
   return (
     <Header style={headerStyle}>
       <Flex>
@@ -25,16 +25,18 @@ export function PageHeader() {
           style={{ marginLeft: 16, borderRadius: '9999px', backgroundColor: 'transparent' }}
           icon={<HomeOutlined />}
         ></Button>
-        <Button
-          type="primary"
-          onClick={() => {
-            navigate('/?user=' + address, {
-              state: { address }
-            })
-          }}
-          style={{ marginLeft: 16, borderRadius: '9999px', backgroundColor: 'transparent' }}
-          icon={<UserOutlined />}
-        ></Button>
+        {isConnected && (
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate('/?user=' + address, {
+                state: { address }
+              })
+            }}
+            style={{ marginLeft: 16, borderRadius: '9999px', backgroundColor: 'transparent' }}
+            icon={<UserOutlined />}
+          ></Button>
+        )}
       </Flex>
       <ButtonConnect style={{ marginLeft: 'auto' }} />
     </Header>
