@@ -17,7 +17,7 @@ const { TextArea } = Input
 const CreatePostModal: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [files, setFiles] = useState(null)
-  const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: ''e })
+  const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: '' })
 
   const { mintNFT, isNeedApproveMore, isFreeMint, approveForNftContract, recipient } = useCreatePost()
   const { uploadFiles } = useUploadFiles()
@@ -30,7 +30,7 @@ const CreatePostModal: React.FC = () => {
 
   const handleCreatePostMutate = async () => {
     const create: INewPost = getPost()
-    console.log("🚀 ~ handleCreatePostMutate ~ create:", create)
+    console.log('🚀 ~ handleCreatePostMutate ~ create:', create)
 
     await mintNFT.mutateAsync({ newTodo: create, signature })
   }
@@ -82,7 +82,6 @@ const CreatePostModal: React.FC = () => {
                 setTimeout(async () => {
                   await handleCreatePostMutate()
                   handleCancel()
-
                 }, 500)
               })
             }}
