@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import { Box } from '@0xsequence/design-system'
+import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Flex, Input, Modal, Switch, Typography } from 'antd'
-import { useCreatePost, type INewPost } from '~/hooks/useCreatePost'
-import { useQuery } from 'wagmi/dist/types/utils/query'
+import React, { useState } from 'react'
+import { useGetSetState } from 'react-use'
+import { formatEther } from 'viem'
 import { useAccount } from 'wagmi'
 import { useAddressSignature } from '~/hooks/useAddressSignature'
+import { useCreatePost, type INewPost } from '~/hooks/useCreatePost'
 import { useReadNFTContract, useReadTokenContract } from '~/hooks/useReadContract'
-import { formatEther } from 'viem'
-import { Box } from '@0xsequence/design-system'
-import { useGetSetState, useUpdateEffect } from 'react-use'
 import useUploadFiles from '~/hooks/useUploadFiles'
 import ButtonConnect from '../Headers/ButtonConnect'
-import { FileAddOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
 const { Paragraph } = Typography
 const { TextArea } = Input
@@ -18,7 +17,7 @@ const { TextArea } = Input
 const CreatePostModal: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [files, setFiles] = useState(null)
-  const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: '' })
+  const [getPost, setPostData] = useGetSetState<INewPost>({ isPublic: true, name: '', description: ''e })
 
   const { mintNFT, isNeedApproveMore, isFreeMint, approveForNftContract, recipient } = useCreatePost()
   const { uploadFiles } = useUploadFiles()
@@ -31,6 +30,7 @@ const CreatePostModal: React.FC = () => {
 
   const handleCreatePostMutate = async () => {
     const create: INewPost = getPost()
+    console.log("🚀 ~ handleCreatePostMutate ~ create:", create)
 
     await mintNFT.mutateAsync({ newTodo: create, signature })
   }
@@ -42,8 +42,8 @@ const CreatePostModal: React.FC = () => {
     if (recipient && open) {
       setTimeout(() => {
         Modal.success({ title: 'Success', content: 'Created!' })
+        window.location.reload()
       }, 500)
-      handleCancel()
     }
   }, [recipient])
 
@@ -70,7 +70,7 @@ const CreatePostModal: React.FC = () => {
         onCancel={handleOK}
         footer={[
           <Button key="back" onClick={handleCancel}>
-            Return
+            Cancel
           </Button>,
           <Button
             key="submit"
@@ -81,6 +81,8 @@ const CreatePostModal: React.FC = () => {
                 setPostData({ images: data })
                 setTimeout(async () => {
                   await handleCreatePostMutate()
+                  handleCancel()
+
                 }, 500)
               })
             }}
@@ -132,12 +134,13 @@ const CreatePostModal: React.FC = () => {
               style={{ width: 42 }}
               value={getPost().isPublic}
               onChange={checked => {
+                console.log('🚀 ~ checked:', checked)
                 setPostData({ isPublic: checked })
               }}
             />
             <Paragraph style={{ marginLeft: 'auto' }}>
               {' '}
-              Price: {formatEther((_mintFee ?? 0) as bigint) + ' ' + String(symbol).toUpperCase()}{' '}
+              Fee: {formatEther((_mintFee ?? 0) as bigint) + ' ' + String(symbol).toUpperCase()}{' '}
             </Paragraph>
           </Flex>
         </Flex>
