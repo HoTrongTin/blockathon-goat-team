@@ -82,6 +82,7 @@ const CreatePostModal: React.FC = () => {
                 setTimeout(async () => {
                   await handleCreatePostMutate()
                   handleCancel()
+                  setPostData({ isPublic: true, name: '', description: '' })
                 }, 500)
               })
             }}
