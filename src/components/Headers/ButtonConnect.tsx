@@ -19,7 +19,7 @@ function Balance() {
     <Box style={{ ...textWhiteStyled }}>
       Balance:{' '}
       <Text style={{ ...textWhiteStyled, textTransform: 'uppercase' }}>
-        {numeral(+formatEther((balance ?? 0) as bigint)).format('0,000')} $GOAT
+        {numeral(+formatEther((balance ?? 0) as bigint)).format('0.0000a')} $GOAT
       </Text>
     </Box>
   )

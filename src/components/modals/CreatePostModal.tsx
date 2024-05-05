@@ -10,6 +10,7 @@ import { Box } from '@0xsequence/design-system'
 import { useGetSetState, useUpdateEffect } from 'react-use'
 import useUploadFiles from '~/hooks/useUploadFiles'
 import ButtonConnect from '../Headers/ButtonConnect'
+import { FileAddOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
 const { Paragraph } = Typography
 const { TextArea } = Input
@@ -38,7 +39,10 @@ const CreatePostModal: React.FC = () => {
   const handleOK = () => setOpen(false)
 
   React.useEffect(() => {
-    if (recipient) {
+    if (recipient && open) {
+      setTimeout(() => {
+        Modal.success({ title: 'Success', content: 'Claimed' })
+      }, 500)
       handleCancel()
     }
   }, [recipient])
@@ -46,7 +50,12 @@ const CreatePostModal: React.FC = () => {
   return (
     <>
       {isConnected ? (
-        <Button type="primary" onClick={() => setOpen(true)}>
+        <Button
+          style={{ borderRadius: 200, height: 60, marginLeft: 32, marginRight: 32 }}
+          icon={<PlusCircleOutlined />}
+          type="primary"
+          onClick={() => setOpen(true)}
+        >
           {!isConnected ? 'Connect Wallet' : 'Create Your Post'}
         </Button>
       ) : (

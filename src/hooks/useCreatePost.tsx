@@ -30,7 +30,7 @@ export const useCreatePost = () => {
   const { data: nftBalanceOf } = useReadNFTContract('balanceOf', [address])
   const { data: _limitFreeMint } = useReadNFTContract('_limitFreeMint', [])
 
-  const { data: recipient } = useWaitForTransactionReceipt({ confirmations: 1, hash: hash })
+  const { data: recipient, isLoading } = useWaitForTransactionReceipt({ confirmations: 1, hash: hash })
 
   const isFreeMint = React.useMemo(() => {
     return nftBalanceOf < _limitFreeMint
@@ -83,6 +83,6 @@ export const useCreatePost = () => {
     mintNFT,
     isFreeMint,
     isNeedApproveMore,
-    recipient
+    recipient: !isLoading && recipient
   }
 }

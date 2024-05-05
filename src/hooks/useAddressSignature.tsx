@@ -4,7 +4,6 @@ import { useAccount, useDisconnect } from 'wagmi'
 
 export function useAddressSignature() {
   const { address: account } = useAccount()
-  const { disconnectAsync: disconnect } = useDisconnect()
   const query = useQuery({
     queryKey: ['address-signature:', account],
     queryFn: ({ queryKey }) => {
@@ -13,16 +12,6 @@ export function useAddressSignature() {
       return sign
     }
   })
-
-  useDebounce(
-    () => {
-      if (!query.data) {
-        disconnect()
-      }
-    },
-    5000,
-    [query.data, disconnect]
-  )
 
   return query
 }

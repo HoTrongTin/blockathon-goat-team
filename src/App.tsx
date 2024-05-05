@@ -11,6 +11,7 @@ import { ConfigProvider } from 'antd'
 import GlobalService from './GlobalService'
 import './index.css'
 import HomePage from './pages/Home'
+import { PostDetail } from './pages/PostDetails'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />
+  },
+  {
+    path: '/post/:id',
+    element: <PostDetail />
   },
   {
     path: '/demo',

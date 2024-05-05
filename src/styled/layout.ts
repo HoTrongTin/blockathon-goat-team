@@ -1,7 +1,7 @@
 export const headerStyle: React.CSSProperties = {
   position: 'sticky',
   top: 0,
-  zIndex: 1,
+  zIndex: 100,
   width: '100%',
   height: 80,
   display: 'flex',
